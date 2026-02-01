@@ -14,7 +14,7 @@ import pandas as pd
 import joblib
 import numpy as np
 import os
-from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score, f1_score, matthews_corrcoef
+from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score, f1_score, matthews_corrcoef, confusion_matrix, classification_report
 
 # Set page configuration
 st.set_page_config(page_title="Breast Cancer Predictor", layout="wide")
@@ -136,13 +136,23 @@ if opt == 'Batch (Upload Test CSV file)':
                 roc_auc = roc_auc_score(y_true, y_proba)
                 f1 = f1_score(y_true, y_pred)
 
-                # Display metrics in the sidebar
-                st.subheader("Model Performance")
+                # Display metrics 
+                st.subheader("Evaluation Metrics")
                 st.write(f"Accuracy: {accuracy:.2f}")
                 st.write(f"ROC AUC: {roc_auc:.2f}")
                 st.write(f"F1 Score: {f1:.2f}")
+
+                # Confusion Matrix
+                st.subheader("Confusion Matrix")
+                cm = confusion_matrix(y_true, y_pred)
+                st.write(cm)
+
+                # Classification Report
+                st.subheader("Classification Report")
+                report = classification_report(y_true, y_pred, output_dict=True)
+                st.dataframe(pd.DataFrame(report).transpose())
             else:
-                st.error("The uploaded test file must contain a 'target' column for calculating Performance metrics.")
+                st.error("The uploaded test file must contain a 'target' column for calculating performance metrics.")
 
 elif opt == 'Single (Input data manually)':
     # Single prediction logic
