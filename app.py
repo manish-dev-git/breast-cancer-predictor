@@ -70,7 +70,7 @@ st.header("Select the prediction option:")
 
 # Display radio buttons horizontally
 opt = st.radio(
-    "",
+    "Batch Prediction or Single Prediction?",
     ('Batch (Upload Test CSV file)', 'Single (Input data manually)'),
     horizontal=True
 )
